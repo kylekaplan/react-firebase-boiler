@@ -1,6 +1,8 @@
 ## Get Started
 Simply add your firebase project configs to `src/fire.js`
 
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
