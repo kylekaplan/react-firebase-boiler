@@ -2,19 +2,19 @@ import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-var config = {
+var firebaseConfig = {
   apiKey: "",
   authDomain: "",
   databaseURL: "",
+  projectId: "",
   storageBucket: "",
   messagingSenderId: "",
-  projectId: "",
   appId: ""
 }
 
 class Fire {
   constructor() {
-    app.initializeApp(config)
+    app.initializeApp(firebaseConfig)
 
     this.auth = app.auth()
     this.db = app.firestore()
