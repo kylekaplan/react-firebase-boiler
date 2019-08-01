@@ -64,8 +64,8 @@ export const useFirebaseAuthentication = () => {
 }
 
 export const useFirestoreUser = () => {
-  const authUser = useFirebaseAuthentication()
   const firebase = useFirebase()
+  const authUser = useFirebaseAuthentication()
   const uid = authUser ? authUser.uid : null
   // initialize our default state
   const [error, setError] = useState(false)
@@ -75,23 +75,22 @@ export const useFirestoreUser = () => {
   // subscribe to the recipe document and update
   // our state when it changes.
   useEffect(() => {
-      const unsubscribe = firebase.db.collection("users").where("uid", "==", uid)
-        .onSnapshot( querySnapshot => {
-          var user = null
-          querySnapshot.forEach(function(doc) {
-            const data = doc.data()
-            user = data
-          })
-          setFirestoreUser(user)
-          setLoading(false)
-        }, err => {
-          setError(err)
-        })
+    if (uid !== null) {
+      const unsubscribe = firebase.db.collection("users").doc(uid)
+      .onSnapshot( doc => {
+        setFirestoreUser(doc.data())
+        setLoading(false)
+      }, err => {
+        setError(err)
+      })
       // returning the unsubscribe function will ensure that
       // we unsubscribe from document changes when our id
       // changes to a different value.
       return () => unsubscribe()
-    },
+    } else {
+      return () => null
+    }
+  },
     [uid, firebase.db]
   )
 
